@@ -3,16 +3,18 @@ include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
+    $student_id = $_POST['student_id'];
+    $name  = $_POST['name'];
+    $cgpa       = $_POST['cgpa'];
+    $email      = $_POST['email'];
+    $department = $_POST['department'];
 
     $sql = "UPDATE users SET 
-            first_name='$first_name', 
-            last_name='$last_name', 
-            email='$email', 
-            phone='$phone' 
+            student_id ='$student_id', 
+            name ='$name', 
+            cgpa ='$cgpa',
+            email ='$email', 
+            department ='$department'
             WHERE id=$id";
 
     if ($conn->query($sql)){
