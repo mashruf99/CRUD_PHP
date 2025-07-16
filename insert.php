@@ -1,20 +1,31 @@
 <?php
 include 'db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = $_POST['first_name'];
-    $last_name  = $_POST['last_name'];
-    $email      = $_POST['email'];
-    $phone      = $_POST['phone'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $student_id = $_POST['student_id'];
+    $name = $_POST['name'];
+    $cgpa = $_POST['cgpa'];
+    $email = $_POST['email'];
+    $department = $_POST['department'];
 
-    $sql = "INSERT INTO users (first_name, last_name, email, phone)
-            VALUES ('$first_name', '$last_name', '$email', '$phone')";
+    $check_sql = "SELECT * FROM users WHERE student_id = '$student_id'";
+    $check_result = $conn->query($check_sql);
 
-    if ($conn->query($sql) === TRUE) {
-        header("Location: view.php");
+    if ($check_result->num_rows > 0) {
+        header("Location: index.php?error=Student ID already exists");
         exit();
     } else {
-        echo "Error: " . $conn->error;
+        $sql = "INSERT INTO users (student_id, name, cgpa, email, department) 
+                VALUES ('$student_id', '$name', '$cgpa', '$email', '$department')";
+
+        if ($conn->query($sql) === TRUE) {
+            header("Location: view.php");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
+
+$conn->close();
 ?>
